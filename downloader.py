@@ -4,8 +4,8 @@ import requests
 import logging
 
 parser = argparse.ArgumentParser()
-parser.add_argument("-f", "--files", nargs='+', required=True, help = "Provide .htm or .html files to download books from")
-parser.add_argument("-t", "--types", nargs='+', default=["pdf"], help="Input the versions of the bundle you'd like to download. Ex. -t pdf epub mobi. Default is pdf")
+parser.add_argument("-f", "--files", nargs='+', required=True, help = "Provide .htm or .html files to download books from. Space separated. Ex -f bundle1.html bundle2.html")
+parser.add_argument("-t", "--types", nargs='+', default=["pdf"], help="Input the versions of the bundle you'd like to download. Space separated. Ex. -t pdf epub mobi. Default is pdf")
 parser.add_argument("--force", action='store_true', default=False, help="Re-download files that already exist. Default is False, supply flag to force download.")
 parser.add_argument("-r", "--remove", action='store_true', default=False, help="Delete html and webpage files once complete. Default is False.")
 parser.add_argument("-v", action='store_true', default=False, help="Verbose logging.")
@@ -67,6 +67,8 @@ def main():
         if not os.path.isfile(file):
             logging.info(f"{file} doesn't seem to exist, moving to next bundle.")
             continue
+        else:
+            logging.debug(f"{file} exists, continuing.")
         bundle = os.path.splitext(file)[0]
         
         for type in args.types:
