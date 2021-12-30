@@ -29,7 +29,7 @@ def make_bundle_dirs(bundle, type):
         
 def get_file_links(html_file, file_type):
     links = []
-    with open(html_file, 'r') as f:
+    with open(html_file, 'r', encoding='utf8') as f:
         for line in f:
             if re.search(f"\.{file_type}",line):
                 soup = BeautifulSoup(line.strip(), 'html.parser')
