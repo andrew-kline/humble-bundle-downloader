@@ -18,4 +18,16 @@ Please let me know if this ends up helping you, and I welcome any pull requests/
 ![Download as complete webpage](https://github.com/andrew-kline/humble-bundle-downloader/blob/main/img/4-savewebpagecomplete.png?raw=true)
 
 ## Steps
-1. Run downloader.py while providing the .html or .htm file(s) that was downloaded in the pre-steps
+Run downloader.py while providing the .html or .htm file(s) downloaded in the pre-steps.
+
+Options include: 
+1. `-f, --files` to provide a space delimited list of html files from which to download
+2. `-t, --types` to provide a space delimited list of file types to download. Options are: pdf (default), epub, and/or mobi
+3. `--force` to re-download files of the same file type and name even if they already exist. Default is False, set the flag for True
+4. `-r, --remove` to delete the html and other webpage files downloaded in the pre-steps. Default is False, set the flag for True
+5. `-v` to set the logging level to DEBUG
+
+Examples  
+`python downloader.py -f bundle1.html bundle2.html --remove`
+
+`python downloader.py -f bundle3.html --types pdf epub -v`
