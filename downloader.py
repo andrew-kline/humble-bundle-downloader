@@ -86,11 +86,11 @@ def download_file(destination, type, link, force):
     fn = get_filename(link)
     path = f"{destination}/{type}/{fn}"
     if not os.path.isfile(path) or force:
-        logging.debug(f"Downloading {fn} to {path}")
+        logger.debug(f"Downloading {fn} to {path}")
         r = requests.get(link, allow_redirects=True)
         open(path, "wb").write(r.content)
     else:
-        logging.debug(f"{path} already exists and force not set")
+        logger.debug(f"{path} already exists and force not set")
 
     return fn
 
@@ -98,19 +98,19 @@ def download_file(destination, type, link, force):
 def delete_downloaded_webpage_files(file):
     if os.path.isfile(file):
         os.remove(file)
-        logging.debug(f"Removed {file}.")
+        logger.debug(f"Removed {file}.")
     if os.path.isdir(f"{os.path.splitext(file)[0]}_files"):
         shutil.rmtree(f"{os.path.splitext(file)[0]}_files")
-        logging.debug(f"Removed {os.path.splitext(file)[0]}_files")
+        logger.debug(f"Removed {os.path.splitext(file)[0]}_files")
 
 
 def main():
     for file in args.files:
         if not os.path.isfile(file):
-            logging.info(f"{file} doesn't seem to exist, moving to next bundle.")
+            logger.info(f"{file} doesn't seem to exist, moving to next bundle.")
             continue
         else:
-            logging.debug(f"{file} exists, continuing.")
+            logger.debug(f"{file} exists, continuing.")
 
         if not args.destination:
             destination = os.path.splitext(file)[0]
@@ -120,15 +120,15 @@ def main():
         for type in args.types:
             links = get_file_links(file, type)
             if links:
-                logging.info(f"{len(links)} {type}s found.")
+                logger.info(f"{len(links)} {type}s found.")
                 make_bundle_dirs(destination, type)
                 files_downloaded = []
                 for link in links:
                     fn = download_file(destination, type, link, args.force)
                     [files_downloaded.append(fn) if fn else True]
-                logging.info(f"{len(files_downloaded)} {type}s downloaded.")
+                logger.info(f"{len(files_downloaded)} {type}s downloaded.")
             else:
-                logging.info(f"No {type} links found in {file}.")
+                logger.info(f"No {type} links found in {file}.")
 
         if args.remove:
             delete_downloaded_webpage_files(file)
